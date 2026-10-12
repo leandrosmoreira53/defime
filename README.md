@@ -1,7 +1,7 @@
 # defime
 
 [![Tests](https://github.com/leandrosmoreira53/defime/actions/workflows/tests.yml/badge.svg)](https://github.com/leandrosmoreira53/defime/actions/workflows/tests.yml)
-![Python](https://img.shields.io/badge/python-3.11%2B-blue) ![Tests](https://img.shields.io/badge/tests-395-brightgreen) ![License](https://img.shields.io/badge/license-MIT-green)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue) ![Tests](https://img.shields.io/badge/tests-419-brightgreen) ![License](https://img.shields.io/badge/license-MIT-green)
 
 **DeFi analytics engine for Uniswap V3/V4 liquidity on Robinhood Chain** — where tokenized stocks and ETFs
 (RWA) trade against USDG. It indexes pool events straight from the chain, rebuilds liquidity, prices and
@@ -29,7 +29,10 @@ an MCP server that exposes pool data to AI agents.
 
 | Page | Jobs | What it shows |
 |---|---|---|
+| `/heat/pools/` | `defime.jobs.rwa` → `defime.jobs.heat_pools` | RWA pools as a treemap in four views — APR (with the fee that reaches LPs), volume, turnover and "heating up" (last hour vs. the day's pace) — with badges for new pools, one-day surges and estimated volume, and links to each asset's `/grafico/` |
 | `/grafico/` | `defime.jobs.acoes` → `defime.jobs.noticias` → `defime.jobs.grafico` | Exchange candles for tokenized stocks (1h collected; 4h, 1d, 3d, 5d and weekly aggregated per trading session), EMA/SMA, Bollinger, Donchian, Gaussian channel, RSI, Stoch RSI, MACD and volume, with the asset's latest headlines |
+
+![defime /heat/pools/ page: RWA pools by APR that reaches LPs](docs/heat-pools.png)
 
 ![defime /grafico/ page for MU](docs/grafico.png)
 
@@ -37,6 +40,10 @@ an MCP server that exposes pool data to AI agents.
 python -m defime.jobs.acoes --simbolos MU,PLTR       # Yahoo OHLC → SQLite (acoes_ohlc), ~2 s per symbol
 python -m defime.jobs.noticias --simbolos MU,PLTR    # headlines → SQLite
 python -m defime.jobs.grafico --simbolos MU,PLTR --saida site   # static HTML in ./site
+
+pip install -e ".[rwa]"                              # RWA universe uses the mcp-defime client
+python -m defime.jobs.rwa --estado estado            # hourly: rwa.json + vol_1h series
+python -m defime.jobs.heat_pools --estado estado --saida site/heat/pools --grafico site/grafico
 ```
 
 The page is a single static HTML file (data inlined as JSON, chart drawn client-side): serve `site/` with any
@@ -60,7 +67,7 @@ web server or open it directly. Schedule the three jobs with cron or systemd tim
 git clone https://github.com/leandrosmoreira53/defime && cd defime
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
-pytest                                              # 395 tests, offline
+pytest                                              # 419 tests, offline
 ```
 
 ```python
@@ -79,16 +86,18 @@ public USO/USDG 0.30% pool on Robinhood Chain, and `WALLET` is empty (market dat
 
 ## Tests
 
-395 offline tests — no network, temporary SQLite where a database is needed. They cover V3/V4 ABI decoding,
+419 offline tests — no network, temporary SQLite where a database is needed. They cover V3/V4 ABI decoding,
 the indexer against a fake RPC, the Blockscout fallback, NFT linking, liquidity-book integrity, Uniswap V3
 math, the LP fee share against 29 real pools, range composition against real on-chain positions, the
 heatmap ranking and layout, technical indicators, gas costs, market sessions, the series writers, the news ladder
-(recorded Yahoo, Google News, RSS and Alpha Vantage responses) and the `/grafico/` page.
+(recorded Yahoo, Google News, RSS and Alpha Vantage responses), the RWA universe collector and the `/grafico/`
+and `/heat/pools/` pages (including a check that the page job makes no network calls).
 
 ## Status
 
-Opening the private project in phases: the engine (phase 1) and the `/grafico/` page with its collectors
-(phase 2) are here; the pools and heatmap pages come next. Code comments are in Portuguese.
+Opening the private project in phases: the engine (phase 1), the `/grafico/` page (phase 2) and the RWA pools
+heatmap (phase 3) are here, each with its collectors. Pages tied to a specific wallet stay private.
+Code comments are in Portuguese.
 
 ## License
 

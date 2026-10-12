@@ -20,10 +20,15 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8", "hypothesis>=6"]
 postgres = ["psycopg[binary]>=3.1"]
+# universo RWA (defime.jobs.rwa) usa o cliente do mcp-defime: DexScreener, GeckoTerminal e on-chain
+rwa = ["mcp-defime @ git+https://github.com/leandrosmoreira53/mcp-defime"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/defime"]
