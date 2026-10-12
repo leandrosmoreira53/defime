@@ -1,7 +1,7 @@
 # defime
 
 [![Tests](https://github.com/leandrosmoreira53/defime/actions/workflows/tests.yml/badge.svg)](https://github.com/leandrosmoreira53/defime/actions/workflows/tests.yml)
-![Python](https://img.shields.io/badge/python-3.11%2B-blue) ![Tests](https://img.shields.io/badge/tests-419-brightgreen) ![License](https://img.shields.io/badge/license-MIT-green)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue) ![Tests](https://img.shields.io/badge/tests-478-brightgreen) ![License](https://img.shields.io/badge/license-MIT-green)
 
 **DeFi analytics engine for Uniswap V3/V4 liquidity on Robinhood Chain** — where tokenized stocks and ETFs
 (RWA) trade against USDG. It indexes pool events straight from the chain, rebuilds liquidity, prices and
@@ -30,7 +30,13 @@ an MCP server that exposes pool data to AI agents.
 | Page | Jobs | What it shows |
 |---|---|---|
 | `/heat/pools/` | `defime.jobs.rwa` → `defime.jobs.heat_pools` | RWA pools as a treemap in four views — APR (with the fee that reaches LPs), volume, turnover and "heating up" (last hour vs. the day's pace) — with badges for new pools, one-day surges and estimated volume, and links to each asset's `/grafico/` |
+| `/pools/` | indexer → `defime.jobs.simbolos` → `defime.jobs.pools_hora` | Every pool on the chain, hour by hour: price, TVL (exact `balanceOf` on V3, rebuilt from positions on V4), liquidity within ±1% of price, 1h volume, swaps and LP fee read from the chain, APR on TVL and on the ±1% book, and which pools gained relevance against their own median — with client-side filters |
+| `/heat/` | `defime.jobs.pools_hora` → `defime.jobs.heatmap` | Token treemap (tile = token, pools aggregated): area by TVL or 24h volume, color by 24h change with the current price read from the contracts in one multicall, plus an exchange view (Yahoo) and per-asset headlines |
 | `/grafico/` | `defime.jobs.acoes` → `defime.jobs.noticias` → `defime.jobs.grafico` | Exchange candles for tokenized stocks (1h collected; 4h, 1d, 3d, 5d and weekly aggregated per trading session), EMA/SMA, Bollinger, Donchian, Gaussian channel, RSI, Stoch RSI, MACD and volume, with the asset's latest headlines |
+
+![defime /heat/ page: token treemap by TVL with 24h change](docs/heat.png)
+
+![defime /pools/ page: every pool hour by hour](docs/pools.png)
 
 ![defime /heat/pools/ page: RWA pools by APR that reaches LPs](docs/heat-pools.png)
 
@@ -44,10 +50,14 @@ python -m defime.jobs.grafico --simbolos MU,PLTR --saida site   # static HTML in
 pip install -e ".[rwa]"                              # RWA universe uses the mcp-defime client
 python -m defime.jobs.rwa --estado estado            # hourly: rwa.json + vol_1h series
 python -m defime.jobs.heat_pools --estado estado --saida site/heat/pools --grafico site/grafico
+
+python -m defime.jobs.simbolos --v4                  # once: token symbols/decimals + V4 pool keys
+python -m defime.jobs.pools_hora                     # hourly (needs pool_events from the indexer) → site/pools
+python -m defime.jobs.heatmap --grafico site/grafico # → site/heat
 ```
 
-The page is a single static HTML file (data inlined as JSON, chart drawn client-side): serve `site/` with any
-web server or open it directly. Schedule the three jobs with cron or systemd timers.
+Each page is a single static HTML file (data inlined as JSON, chart drawn client-side): serve `site/` with any
+web server or open it directly. Schedule the jobs with cron or systemd timers.
 
 ## Design principles
 
@@ -67,7 +77,7 @@ web server or open it directly. Schedule the three jobs with cron or systemd tim
 git clone https://github.com/leandrosmoreira53/defime && cd defime
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
-pytest                                              # 419 tests, offline
+pytest                                              # 478 tests, offline
 ```
 
 ```python
@@ -86,17 +96,17 @@ public USO/USDG 0.30% pool on Robinhood Chain, and `WALLET` is empty (market dat
 
 ## Tests
 
-419 offline tests — no network, temporary SQLite where a database is needed. They cover V3/V4 ABI decoding,
+478 offline tests — no network, temporary SQLite where a database is needed. They cover V3/V4 ABI decoding,
 the indexer against a fake RPC, the Blockscout fallback, NFT linking, liquidity-book integrity, Uniswap V3
 math, the LP fee share against 29 real pools, range composition against real on-chain positions, the
 heatmap ranking and layout, technical indicators, gas costs, market sessions, the series writers, the news ladder
-(recorded Yahoo, Google News, RSS and Alpha Vantage responses), the RWA universe collector and the `/grafico/`
-and `/heat/pools/` pages (including a check that the page job makes no network calls).
+(recorded Yahoo, Google News, RSS and Alpha Vantage responses), the RWA universe collector, token symbol resolution, the V4 LP fee split and the `/grafico/`,
+`/heat/` and `/heat/pools/` pages (including a check that the page job makes no network calls).
 
 ## Status
 
 Opening the private project in phases: the engine (phase 1), the `/grafico/` page (phase 2) and the RWA pools
-heatmap (phase 3) are here, each with its collectors. Pages tied to a specific wallet stay private.
+heatmap (phase 3) and the `/pools/` table and `/heat/` token map (phase 4) are here, each with its collectors. Pages tied to a specific wallet stay private.
 Code comments are in Portuguese.
 
 ## License

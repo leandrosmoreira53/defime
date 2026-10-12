@@ -60,6 +60,20 @@ BY_TOPIC0 = {v.lower(): k for k, v in TOPIC0.items()}
 INDEXED_EVENTS = ["Swap", "ModifyLiquidity", "Initialize", "Donate"]
 
 
+# `extsload(bytes32)` do PoolManager: le um slot de storage cru. E por ele que o
+# estado de uma pool V4 sai do contrato, ja que nao ha contrato por pool.
+SEL_EXTSLOAD = "0x1e2eaeaf"
+
+
+def slot_da_pool(pool_id: str) -> int:
+    """Slot do estado no mapping `_pools` (indice 6) do `PoolManager`.
+
+    A primeira palavra desse slot empacota sqrtPriceX96 (160 bits) e o tick (int24).
+    """
+    return int.from_bytes(
+        keccak(bytes.fromhex(pool_id[2:]) + (6).to_bytes(32, "big")), "big")
+
+
 def _palavra(dados: bytes, i: int, com_sinal: bool = True) -> int:
     """Palavra `i` de 32 bytes. `int` sempre — float so na apresentacao."""
     bruto = int.from_bytes(dados[i * 32:(i + 1) * 32], "big")
@@ -181,5 +195,5 @@ def taxa_medida(swaps: list[dict]) -> dict:
     }
 
 
-__all__ = ["POOL_MANAGER", "EVENTOS", "TOPIC0", "BY_TOPIC0", "INDEXED_EVENTS",
+__all__ = ["SEL_EXTSLOAD", "slot_da_pool", "POOL_MANAGER", "EVENTOS", "TOPIC0", "BY_TOPIC0", "INDEXED_EVENTS",
            "decode_log", "taxa_medida", "preco_do_tick"]

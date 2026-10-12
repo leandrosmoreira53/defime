@@ -52,7 +52,7 @@ L_REF = 10 ** 18
 class Mercado:
     """Os parametros da pool que a composicao precisa.
 
-    Primitivos de proposito: `core/` nao importa `painel_pools`. Quem monta
+    Primitivos de proposito: `core/` nao importa registro de pools. Quem monta
     isto e o chamador, lendo de `pool_param` — nunca supondo, porque as tres
     suposicoes obvias ja custaram caro aqui (taxa fixa em 0,30% fez a GOOGL
     render +$1.691 numa pool que ganhou $457; spacing fixo em 60 pos a RDDT em
@@ -80,7 +80,7 @@ def preco_do_tick(m: Mercado, tick: int) -> float:
 
     A razao nativa do Uniswap e `token1/token0`; com a stable em token0 ela e
     "ativo por dolar" e o preco em dolar e o INVERSO. Mesma definicao de
-    `painel_pools.Pool.preco_do_tick` — nao uma segunda.
+    `defime.jobs.heatmap.preco_do_tick` — nao uma segunda.
     """
     expo = m.dec_ativo - m.dec_stable
     return (1.0001 ** (-tick if m.usdg_token0 else tick)) * (10 ** expo)
