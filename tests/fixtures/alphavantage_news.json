@@ -1,0 +1,117 @@
+{
+ "items": "3",
+ "sentiment_score_definition": "x <= -0.35: Bearish; -0.35 < x <= -0.15: Somewhat-Bearish; -0.15 < x < 0.15: Neutral; 0.15 <= x < 0.35: Somewhat_Bullish; x >= 0.35: Bullish",
+ "relevance_score_definition": "0 < x <= 1, with a higher score indicating higher relevance.",
+ "feed": [
+  {
+   "title": "Apple (NASDAQ: AAPL) Cuts Over 200 Jobs In Siri And Vision Pro As Company Pivots To AI And Smart Glasses",
+   "url": "https://www.foreignpolicyjournal.com/2026/08/22/apple-nasdaq-aapl-cuts-over-200-jobs-in-siri-and-vision-pro-as-company-pivots-to-ai-and-smart-glasses/",
+   "time_published": "20260822T180659",
+   "summary": "Apple is cutting over 200 jobs in its Siri and Vision Pro divisions as it reallocates resources towards artificial intelligence and next-generation hardware like smart glasses. The restructuring impacts roughly 100 Vision Pro roles and 100 Siri/Intelligent Systems Experience positions, driven by a shift to an AI-enhanced Siri and a tactical retreat from certain Vision Pro content development due to high costs and slow adoption. Despite these adjustments, Apple affirms its commitment to the Vision Pro hardware and visionOS, with a potential updated model by late 2028, and its stock shows investor confidence in the company's broader strategic direction.",
+   "source": "Foreign Policy Journal",
+   "source_domain": "Foreign Policy Journal",
+   "overall_sentiment_score": 0.072363,
+   "overall_sentiment_label": "Neutral",
+   "topics": [
+    {
+     "topic": "technology",
+     "relevance_score": "1.000000"
+    },
+    {
+     "topic": "financial_markets",
+     "relevance_score": "0.713037"
+    }
+   ],
+   "ticker_sentiment": [
+    {
+     "ticker": "AAPL",
+     "relevance_score": "1.000000",
+     "ticker_sentiment_score": "0.095506",
+     "ticker_sentiment_label": "Neutral"
+    }
+   ]
+  },
+  {
+   "title": "Apple faces class action over alleged ‘bricking’ of older Apple Watch models",
+   "url": "https://topclassactions.com/lawsuit-settlements/lawsuit-news/apple-faces-class-action-over-alleged-bricking-of-older-apple-watch-models/",
+   "time_published": "20260822T150459",
+   "summary": "Apple is facing a new class action lawsuit alleging that the company prematurely ended software support for several older Apple Watch models, effectively \"bricking\" them and forcing consumers to buy new devices. The lawsuit claims Apple's watchOS 27 update is incompatible with models like the SE 2, Series 6, 7, 8, and Ultra 1, which were sold recently and had not yet reached their useful life. The plaintiff, Richard Goetz, alleges unfair business practices and seeks to represent California consumers who purchased these affected Apple Watch models.",
+   "source": "Top Class Actions",
+   "source_domain": "Top Class Actions",
+   "overall_sentiment_score": -0.615316,
+   "overall_sentiment_label": "Bearish",
+   "topics": [
+    {
+     "topic": "technology",
+     "relevance_score": "1.000000"
+    },
+    {
+     "topic": "finance",
+     "relevance_score": "0.825462"
+    },
+    {
+     "topic": "retail_wholesale",
+     "relevance_score": "0.619182"
+    }
+   ],
+   "ticker_sentiment": [
+    {
+     "ticker": "AAPL",
+     "relevance_score": "1.000000",
+     "ticker_sentiment_score": "-0.644582",
+     "ticker_sentiment_label": "Bearish"
+    }
+   ]
+  },
+  {
+   "title": "Best Buy’s 60th Anniversary Sale Is a Q3 Test, Not a Q2 Rescue",
+   "url": "https://ts2.tech/en/best-buys-60th-anniversary-sale-is-a-q3-test-not-a-q2-rescue/",
+   "time_published": "20260822T143812",
+   "summary": "Best Buy's 60th-anniversary sale, featuring a discounted gift card, is positioned as an early test for fiscal third-quarter traffic rather than a boost for the already-closed second quarter. The promotion's impact on revenue is deferred until gift cards are redeemed, though the cash collected aids liquidity. Investors are awaiting Best Buy's Q2 results on August 27th, with analysts expecting around $9.5 billion in revenue and $1.34 adjusted EPS.",
+   "source": "TechStock²",
+   "source_domain": "TechStock²",
+   "overall_sentiment_score": 0.088658,
+   "overall_sentiment_label": "Neutral",
+   "topics": [
+    {
+     "topic": "earnings",
+     "relevance_score": "0.922771"
+    },
+    {
+     "topic": "retail_wholesale",
+     "relevance_score": "0.831666"
+    },
+    {
+     "topic": "financial_markets",
+     "relevance_score": "0.716735"
+    }
+   ],
+   "ticker_sentiment": [
+    {
+     "ticker": "BBY",
+     "relevance_score": "1.000000",
+     "ticker_sentiment_score": "0.084262",
+     "ticker_sentiment_label": "Neutral"
+    },
+    {
+     "ticker": "DELL",
+     "relevance_score": "0.628209",
+     "ticker_sentiment_score": "0.109842",
+     "ticker_sentiment_label": "Neutral"
+    },
+    {
+     "ticker": "HPQ",
+     "relevance_score": "0.646755",
+     "ticker_sentiment_score": "0.147580",
+     "ticker_sentiment_label": "Neutral"
+    },
+    {
+     "ticker": "AAPL",
+     "relevance_score": "0.649953",
+     "ticker_sentiment_score": "0.109737",
+     "ticker_sentiment_label": "Neutral"
+    }
+   ]
+  }
+ ]
+}

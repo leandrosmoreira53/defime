@@ -1,11 +1,12 @@
 # defime
 
 [![Tests](https://github.com/leandrosmoreira53/defime/actions/workflows/tests.yml/badge.svg)](https://github.com/leandrosmoreira53/defime/actions/workflows/tests.yml)
-![Python](https://img.shields.io/badge/python-3.11%2B-blue) ![Tests](https://img.shields.io/badge/tests-254-brightgreen) ![License](https://img.shields.io/badge/license-MIT-green)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue) ![Tests](https://img.shields.io/badge/tests-395-brightgreen) ![License](https://img.shields.io/badge/license-MIT-green)
 
 **DeFi analytics engine for Uniswap V3/V4 liquidity on Robinhood Chain** — where tokenized stocks and ETFs
 (RWA) trade against USDG. It indexes pool events straight from the chain, rebuilds liquidity, prices and
-positions from those events, computes the fee that **actually reaches LPs**, and ranks RWA pools in a heatmap.
+positions from those events, computes the fee that **actually reaches LPs**, ranks RWA pools in a heatmap, and
+renders static dashboard pages.
 
 This is the open-source core of the **defime dashboard**, a private, login-protected panel fed by ~30
 scheduled collectors on a VPS. Dashboard pages and anything tied to a specific wallet stay private; this repo
@@ -21,7 +22,25 @@ an MCP server that exposes pool data to AI agents.
 | **Storage** | `db/models.py`, `session.py`, `registro.py` | SQLAlchemy 2 models (SQLite locally, Postgres by changing a URL); append-only series writers |
 | **Math & analytics** | `core/v3math.py`, `taxa_lp.py`, `composicao.py`, `book.py`, `prices.py`, `positions.py`, `competitors.py`, `consensus.py`, `fee_density.py`, `fee_model.py`, `migration.py`, `vigilancia.py`, `instante.py`, `sessoes.py` | Integer/Decimal Uniswap V3 math; the LP share of the swap fee read from `slot0.feeProtocol`; range composer (how much of each token to hold before opening a range); liquidity distribution, price series and **every position** rebuilt from events; where fees are actually paid per tick range; where liquidity is migrating; a position's share of a tick's fees vs. its neighbours; a guard against mixing data from different instants; US market sessions for tokenized stocks |
 | **RWA heatmap** | `heat_pools.py`, `heatmap.py` | Pure functions (no DB, no network) that rank RWA pools by APR, volume, turnover and "heat", and lay them out as a treemap |
+| **News** | `macro/news.py`, `noticias_ativos.py`, `noticias_banco.py` | Per-asset headlines from a provider ladder (Yahoo search and RSS, Google News, optional Alpha Vantage), with topic profiles and alert tags |
 | **Costs & market** | `custo/gas.py`, `macro/indicadores.py`, `tecnica.py`, `resumo_tecnico.py`, `acoes.py`, `opcoes.py` | Gas cost model for the chain; RSI, Stoch RSI, MACD, moving averages and channels; range-sizing technicals (volatility, not direction); exchange quote vs. pool price; implied volatility from the options chain |
+
+## Dashboard pages
+
+| Page | Jobs | What it shows |
+|---|---|---|
+| `/grafico/` | `defime.jobs.acoes` → `defime.jobs.noticias` → `defime.jobs.grafico` | Exchange candles for tokenized stocks (1h collected; 4h, 1d, 3d, 5d and weekly aggregated per trading session), EMA/SMA, Bollinger, Donchian, Gaussian channel, RSI, Stoch RSI, MACD and volume, with the asset's latest headlines |
+
+![defime /grafico/ page for MU](docs/grafico.png)
+
+```bash
+python -m defime.jobs.acoes --simbolos MU,PLTR       # Yahoo OHLC → SQLite (acoes_ohlc), ~2 s per symbol
+python -m defime.jobs.noticias --simbolos MU,PLTR    # headlines → SQLite
+python -m defime.jobs.grafico --simbolos MU,PLTR --saida site   # static HTML in ./site
+```
+
+The page is a single static HTML file (data inlined as JSON, chart drawn client-side): serve `site/` with any
+web server or open it directly. Schedule the three jobs with cron or systemd timers.
 
 ## Design principles
 
@@ -41,7 +60,7 @@ an MCP server that exposes pool data to AI agents.
 git clone https://github.com/leandrosmoreira53/defime && cd defime
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
-pytest                                              # 254 tests, offline
+pytest                                              # 395 tests, offline
 ```
 
 ```python
@@ -60,15 +79,16 @@ public USO/USDG 0.30% pool on Robinhood Chain, and `WALLET` is empty (market dat
 
 ## Tests
 
-254 offline tests — no network, temporary SQLite where a database is needed. They cover V3/V4 ABI decoding,
+395 offline tests — no network, temporary SQLite where a database is needed. They cover V3/V4 ABI decoding,
 the indexer against a fake RPC, the Blockscout fallback, NFT linking, liquidity-book integrity, Uniswap V3
 math, the LP fee share against 29 real pools, range composition against real on-chain positions, the
-heatmap ranking and layout, technical indicators, gas costs, market sessions and the series writers.
+heatmap ranking and layout, technical indicators, gas costs, market sessions, the series writers, the news ladder
+(recorded Yahoo, Google News, RSS and Alpha Vantage responses) and the `/grafico/` page.
 
 ## Status
 
-Phase 1 of opening the private project: the engine is here; the static dashboard pages (pools, heatmap,
-charts) come next. Code comments are in Portuguese.
+Opening the private project in phases: the engine (phase 1) and the `/grafico/` page with its collectors
+(phase 2) are here; the pools and heatmap pages come next. Code comments are in Portuguese.
 
 ## License
 

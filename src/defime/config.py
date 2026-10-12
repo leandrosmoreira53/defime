@@ -56,6 +56,10 @@ class Settings(BaseSettings):
     # SQLite por padrão; Postgres em produção é só trocar a URL (pip install psycopg).
     database_url: str = f"sqlite:///{(ROOT / 'defime.db').as_posix()}"
 
+    # ---- notícias (opcional) -----------------------------------------
+    # Chave GRATUITA da alphavantage.co. Vazia = a escada de notícias usa as fontes sem chave.
+    alphavantage_api_key: str = ""
+
     # ---- observabilidade ---------------------------------------------
     log_level: str = "INFO"
     log_json: bool = True

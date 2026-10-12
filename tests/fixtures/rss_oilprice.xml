@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+			>
+  <channel>
+    <title>Oilprice.com</title>
+    <link>https://oilprice.com/rss/main</link>
+    <description>The latest news and headlines</description>
+    <pubDate>Sat, 22 Aug 2026 16:00:54 -0500</pubDate>
+    <atom:link href="https://oilprice.com/rss/main" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Gas Turbine Shortage Just Became AI’s Biggest Constraint</title>
+      <link>https://oilprice.com/Energy/Energy-General/The-Gas-Turbine-Shortage-Just-Became-AIs-Biggest-Constraint.html</link>
+      <guid isPermaLink="false">oilprice-article-45276</guid>
+      <description>Order a heavy-duty gas turbine from GE Vernova today and it won’t arrive until 2031. That’s the company’s actual production schedule, confirmed on its July 22 earnings call, and it’s the fact sitting underneath every AI data center power plan announced in the last two years. It comes up far less often than the announcements do. Goldman Sachs put hard numbers on the demand side in May. U.S. data center power demand climbs from 31 gigawatts in 2025 to 41 GW this year and 66 GW in 2027. Year-over-year capacity additions accelerate…</description>
+      <pubDate>Sat, 22 Aug 2026 16:00:00 -0500</pubDate>
+      <lastmod>Sat, 22 Aug 2026 16:00:54 -0500</lastmod>
+      <dc:creator>Michael Kern</dc:creator>
+    </item>
+<item>
+      <title>Clean Energy Spending Tracking Toward Record $180 Billion in 2026</title>
+      <link>https://oilprice.com/Energy/Energy-General/Clean-Energy-Spending-Tracking-Toward-Record-180-Billion-in-2026.html</link>
+      <guid isPermaLink="false">oilprice-article-45275</guid>
+      <description>Donald Trump is accidentally overseeing a massive buildout of the country’s renewable energy capacity and infrastructure. Not only are investments in renewable technologies soaring to new highs, the national energy grid is rapidly transforming to accommodate an increasingly solar- and wind-powered energy mix.  Despite massive rollbacks of Biden- and Obama-era clean energy incentives and financial supports, investment in clean energy tech keeps soaring to new heights, buoyed by market forces far outside of the federal government’s…</description>
+      <pubDate>Sat, 22 Aug 2026 14:00:00 -0500</pubDate>
+      <lastmod>Sat, 22 Aug 2026 16:00:54 -0500</lastmod>
+      <dc:creator>Haley Zaremba</dc:creator>
+    </item>
+<item>
+      <title>Every Chokepoint That Isn&#039;t Hormuz</title>
+      <link>https://oilprice.com/Energy/Energy-General/Every-Chokepoint-That-Isnt-Hormuz.html</link>
+      <guid isPermaLink="false">oilprice-article-45274</guid>
+      <description>For six months the entire conversation about oil logistics has been about one strait, and you can hardly blame anyone for that. Hormuz has been effectively closed since late February, when the war between Iran and the U.S. and Israel started, and the EIA reckons only 4.9 million barrels a day of crude and liquids made it through in the second quarter. In the last quarter of 2025 that number was 21.6 million. Parliament Speaker Mohammad Baqer Qalibaf said in June that management of the strait “will never return to the way it was before the…</description>
+      <pubDate>Sat, 22 Aug 2026 12:00:00 -0500</pubDate>
+      <lastmod>Sat, 22 Aug 2026 16:00:54 -0500</lastmod>
+      <dc:creator>Michael Kern</dc:creator>
+    </item>
+</channel>
+</rss>

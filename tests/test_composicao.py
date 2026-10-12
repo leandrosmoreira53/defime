@@ -84,7 +84,7 @@ def test_orientacao_INVERTIDA_muda_o_preco_de_cabeca_para_baixo():
 
 # ------------------------------------------- PORTAO C1: a posicao real
 
-def test_PORTAO_C1_reproduz_os_amounts_da_posicao_viva_1831178():
+def test_PORTAO_C1_reproduz_os_amounts_da_posicao_viva_POS_A():
     """A ancora do plano: mesma faixa, mesmo capital, mesmos amounts.
 
     Erro exigido < 0,01% contra o que a chain reporta."""

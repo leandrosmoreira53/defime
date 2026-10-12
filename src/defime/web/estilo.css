@@ -1,0 +1,428 @@
+
+/* **Escuro sempre**, decisao de 31/08: no celular dele a pagina
+   caia no claro pelo `prefers-color-scheme` e ele quer o escuro. O `<html>`
+   sai com `data-theme="dark"` cravado, entao a regra de `[data-theme="dark"]`
+   la embaixo vence as duas de baixo.
+
+   A paleta clara FICA, e nao e desperdicio: ela e o que sobra se alguem
+   imprimir a pagina ou trocar o atributo, e apagar as duas primeiras regras
+   deixaria a pagina sem cor nenhuma nesses casos. */
+:root{
+  --bg:#F3F5F7; --card:#FFF; --ink:#131A21; --ink2:#46535F; --ink3:#77848F;
+  --rule:#DCE2E8; --rule2:#EDF0F3;
+  --up:#12704C; --up-bg:#E3F1EA; --down:#A32B22; --down-bg:#FBE9E7;
+  --accent:#0F5C86; --accent-bg:#E3EEF5;
+  --warn:#8E5107; --warn-bg:#FBF0E1;
+  --sh:0 1px 2px rgba(19,26,33,.05),0 6px 18px rgba(19,26,33,.045);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1116; --card:#131C23; --ink:#E9EEF2; --ink2:#B0BCC6; --ink3:#7A8894;
+  --rule:#243039; --rule2:#1A242C;
+  --up:#5CC495; --up-bg:#11241C; --down:#E8776B; --down-bg:#2A1614;
+  --accent:#6BB3DD; --accent-bg:#132735;
+  --warn:#DB9C4C; --warn-bg:#2A1E11;
+  --sh:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --bg:#0B1116; --card:#131C23; --ink:#E9EEF2; --ink2:#B0BCC6; --ink3:#7A8894;
+  --rule:#243039; --rule2:#1A242C;
+  --up:#5CC495; --up-bg:#11241C; --down:#E8776B; --down-bg:#2A1614;
+  --accent:#6BB3DD; --accent-bg:#132735;
+  --warn:#DB9C4C; --warn-bg:#2A1E11;
+  --sh:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased}
+.w{max-width:1320px;margin:0 auto;padding:26px 20px 70px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.pos{color:var(--up)} .neg{color:var(--down)}
+
+/* topo */
+.hd{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;
+  justify-content:space-between;padding-bottom:16px;margin-bottom:22px;
+  border-bottom:2px solid var(--ink)}
+.hd h1{margin:0;font-size:clamp(23px,3vw,31px);font-weight:600;letter-spacing:-.02em}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 5px;font-weight:500}
+/* **`margin-left:auto` para o carimbo ficar a DIREITA mesmo quebrando.** O
+   `space-between` so alinha quem esta na MESMA linha do flex, e a linha de
+   links do cabecalho ja ocupa a largura inteira: o bloco da data caia para a
+   linha de baixo e encostava na esquerda, com o texto alinhado a direita
+   dentro de uma caixa estreita — que foi o que o usuario viu. */
+.quando{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink3);
+  text-align:right;line-height:1.75;margin-left:auto}
+
+/* secao */
+.sec{margin:0 0 12px;display:flex;align-items:baseline;gap:11px;
+  padding-top:26px}
+.sec h2{margin:0;font-size:15px;font-weight:600;letter-spacing:.01em}
+.sec .cnt{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3)}
+.sec::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+/* faixa de metricas */
+.faixa{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:10px;overflow:hidden;box-shadow:var(--sh)}
+/* Sete so quando ha migracao recente: o cartao do piso da troca entra ao lado
+   do "dinheiro que voce pos" e some quando a troca envelhece. */
+.f8{grid-template-columns:repeat(8,1fr)}
+.f7{grid-template-columns:repeat(7,1fr)}
+.f6{grid-template-columns:repeat(6,1fr)}
+.f5{grid-template-columns:repeat(5,1fr)}
+.f4{grid-template-columns:repeat(4,1fr)}
+/* **O ROI total tem quatro linhas de texto pequeno e os vizinhos uma ou duas.**
+   Com colunas iguais ele esticava a faixa inteira e deixava um vao vazio
+   embaixo de cada cartao curto. A ultima coluna ganha o dobro da largura e o
+   texto dele cabe em duas linhas; so em tela larga, porque abaixo de 1080px a
+   grade ja quebra em 3 e 2 colunas. */
+@media(min-width:1081px){
+  .f8.roi-largo{grid-template-columns:repeat(7,minmax(0,1fr)) minmax(0,2fr)}
+  .f7.roi-largo{grid-template-columns:repeat(6,minmax(0,1fr)) minmax(0,2fr)}
+  .f6.roi-largo{grid-template-columns:repeat(5,minmax(0,1fr)) minmax(0,2fr)}
+}
+.m{background:var(--card);padding:13px 15px}
+.m .k{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3);margin-bottom:5px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.m .v{font-family:"IBM Plex Mono",monospace;font-size:20px;font-weight:600;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.2}
+.m .v.sm{font-size:16px}
+.m .s{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink3);margin-top:3px}
+.m.hi{background:var(--accent-bg)}
+
+/* tabela */
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;
+  background:var(--card);box-shadow:var(--sh)}
+table{border-collapse:collapse;width:100%;min-width:940px}
+th{font-family:"IBM Plex Mono",monospace;font-size:9.5px;white-space:nowrap;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3);font-weight:500;text-align:right;
+/* O cabecalho QUEBRA em duas linhas; o corpo, nao. "Fee pendente" e "Total com
+   fee" sao mais largos que os numeros que encabecam, entao eram eles — e nao o
+   dado — que fixavam a largura da coluna. Deixando o titulo quebrar, a coluna
+   passa a ter a largura do numero. */
+  padding:11px 7px;border-bottom:1px solid var(--rule);
+  white-space:normal;line-height:1.3}
+th:first-child,td:first-child{text-align:left}
+/* 9px de folga lateral, nao 14: com treze colunas na tabela de ativas os
+   10px a mais por celula somavam 130px e eram sozinhos a diferenca entre
+   caber em 1024 e ter barra de rolagem. */
+td{padding:9px 7px;border-bottom:1px solid var(--rule2);text-align:right;
+  font-family:"IBM Plex Mono",monospace;font-size:13px;font-variant-numeric:tabular-nums;
+  white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+/* Posicoes ativas: catorze colunas com larguras FIXAS e proporcionais. Em
+   layout automatico cada coluna tomava a largura do seu maior conteudo (55 a
+   124 px) e os titulos quebravam em duas linhas — a tabela parecia torta. Com
+   os titulos abreviados cabe tudo numa linha, e o minimo de largura garante
+   que a faixa e o "na faixa" nao sejam cortados: abaixo dele, rola. */
+table.ativas{table-layout:fixed;min-width:1180px}
+table.ativas th{white-space:nowrap;padding-left:8px;padding-right:8px}
+table.ativas td{padding-left:8px;padding-right:8px}
+tbody tr.tot td{border-top:2px solid var(--rule);border-bottom:none;
+  font-weight:600;background:var(--rule2)}
+.nft{font-weight:600;font-size:13.5px}
+.pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+  letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:4px;
+  font-weight:500}
+.pill.ok{background:var(--up-bg);color:var(--up)}
+.pill.off{background:var(--rule2);color:var(--ink3)}
+.pill.w{background:var(--warn-bg);color:var(--warn)}
+
+/* barra de faixa */
+/* Piso e teto em linhas separadas. Em uma linha so, "$120,32 - $136,48" era a
+   celula mais larga da tabela e, com treze colunas, empurrava o resto para
+   fora da tela. Empilhado, a coluna encolhe ~45% e nao ha barra de rolagem. */
+/* `rng`, e nao `faixa`: `.faixa` ja e o grid dos cartoes la em cima, e
+   reusar o nome pintou a celula com fundo de cartao, como um balao
+   flutuando sobre a tabela. */
+.rng{white-space:nowrap;line-height:1.45}
+.lim{color:var(--ink3);font-size:11px;letter-spacing:.02em;margin-right:3px}
+.bar{position:relative;height:6px;background:var(--up);border-radius:3px;
+  min-width:70px;margin-top:5px}
+.bar i{position:absolute;top:-3px;width:2px;height:12px;background:var(--accent);
+  border-radius:1px}
+/* **A nota ocupa a largura do box de cima, decisao de 17/09.**
+   O limite de 88ch existia por legibilidade de linha longa; numa tela de
+   1440 ele deixava o texto com metade da largura dos cartoes logo acima,
+   e o desalinhamento lia-se como coluna quebrada. */
+.nota{font-size:13px;color:var(--ink2);margin:9px 2px 0;max-width:100%}
+.nota b{color:var(--ink);font-weight:600}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink3);line-height:1.9}
+@media(max-width:1080px){.f8,.f7,.f6,.f5{grid-template-columns:repeat(3,1fr)}
+  .f4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.f8,.f7,.f6,.f5,.f4{grid-template-columns:repeat(2,1fr)}
+  .w{padding:18px 12px 50px}}
+
+/* aviso de dado velho: se a geracao falhar, o nginx continua servindo o HTML
+   anterior — e ele ficaria velho em silencio, que e a familia de bug que este
+   projeto mais encontrou. O vermelho existe para isso nao passar batido. */
+.stale{color:var(--down);font-weight:600}
+
+/* NFT com link para a posicao na Uniswap. O app deles suporta a Robinhood
+   Chain — confirmado abrindo uma posicao real, que mostra os mesmos numeros. */
+.nft a{color:var(--accent);text-decoration:none;
+  border-bottom:1px dotted var(--accent);padding-bottom:1px}
+.nft a:hover{border-bottom-style:solid}
+.nft a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;
+  border-radius:2px}
+.ext{font-size:9px;margin-left:3px;opacity:.65;vertical-align:super}
+.par{font-weight:600}
+.par .taxa{display:block;font-size:10px;color:var(--ink3);font-weight:400}
+
+/* A pool abre o grafico no GeckoTerminal. Mesmo tratamento do link do NFT,
+   mas em tom de texto — sao dois links por linha e dois azuis competiriam. */
+.par a{color:inherit;text-decoration:none;
+  border-bottom:1px dotted var(--ink3);padding-bottom:1px}
+.par a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.par a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;
+  border-radius:2px}
+
+/* O endereco no cabecalho leva a Revert. Sublinhado so no hover: o topo e
+   identificacao, nao navegacao — um link berrante ali competiria com os
+   numeros, que sao o assunto da pagina. */
+.eyebrow a{color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}
+.eyebrow a:hover{border-bottom-style:solid}
+
+/* Os dois cartoes de liquidacao. Borda em vez de fundo forte: eles nao sao
+   um alarme (o fator de saude esta em 1,94), sao a consequencia caso chegue
+   la. Pintar de vermelho treinaria a ignorar o vermelho. */
+.m.alerta{border:1px solid rgba(220,140,60,.55);background:rgba(220,140,60,.06)}
+.m.alerta .k{color:#c8823c}
+
+.cnt a{color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}
+.cnt a:hover{border-bottom-style:solid}
+
+/* Aviso de dado faltando. Fica ACIMA dos numeros que ele qualifica: como nota
+   de rodape, quem le a manchete nunca chega nele. */
+.alerta-topo{background:var(--down-bg);border:1px solid var(--down);
+  border-radius:10px;padding:11px 14px;margin:14px 0 0;
+  font-size:12.5px;line-height:1.55;color:var(--ink)}
+.alerta-topo b{color:var(--down)}
+
+/* O ranking tem 12 colunas curtas. `width:100%` estica a tabela ate a borda e
+   abre vaos enormes entre elas — o olho atravessa a tela para ligar o nome da
+   pool ao numero, e a tabela parece torta. Aqui a largura e a do CONTEUDO, e a
+   tabela fica centrada no que sobrar. `min-width:0` e obrigatorio: sem ele o
+   `min-width:940px` do global reintroduz o esticamento.
+
+   So no `.largo`, porque o painel principal tem menos coluna e o 100% serve la. */
+/* O ranking tem 13 colunas e nao cabe na largura do painel principal. Classe propria
+   para nao alargar o painel principal junto, que tem menos coluna e fica pior larga.
+   Herda o padding de `.w` — foi por escrever `.wrap`, que nao existe no CSS,
+   que o conteudo colou nas bordas do celular. */
+.w.largo{max-width:1400px}
+/* Alinhada a ESQUERDA, nao centrada. Centrar a tabela e deixar o titulo, a
+   secao e as notas na margem esquerda produz duas colunas de alinhamento
+   competindo — a pagina parece torta mesmo estando cada peca certa. Com a
+   tabela na margem, tudo compartilha a mesma linha vertical e a folga sobra a
+   direita, onde nao incomoda. */
+.w.largo table{width:auto;min-width:0;margin:0}
+/* A moldura tambem encolhe: sem isto sobravam 276px de borda vazia em volta
+   da tabela, e a caixa parecia grande demais para o que carrega. O
+   `max-width:100%` preserva a rolagem horizontal quando a tela e menor que a
+   tabela — e o que salva o celular. */
+.w.largo .tw{width:max-content;max-width:100%;margin-left:0;margin-right:0}
+/* As notas param onde a tabela para: texto que avanca alem dela reabre o
+   desencontro que centrar a tabela tinha criado. */
+.w.largo .nota{max-width:100%;margin-left:2px}
+.w.largo td{padding:8px 13px}
+/* O cabecalho do ranking NAO quebra. A quebra foi acrescentada no `th` global
+   para a tabela de treze colunas do painel principal, onde "Fee pendente" e "Total com
+   fee" sao mais largos que os numeros que encabecam. Aqui os titulos ja sao
+   curtos: quebra-los encolheu a tabela de ~1.290px para 1.021px e abriu um vao
+   de 360px a direita, com o titulo e as notas numa largura e a tabela em
+   outra — que e exatamente o "torto" que estas regras existem para evitar. */
+.w.largo th{padding-left:13px;padding-right:13px;white-space:nowrap}
+/* Numero encostado no rotulo do vizinho confunde; a regra abaixo devolve a
+   respiracao so entre grupos, nao entre todas as colunas. */
+.w.largo td:nth-child(2){padding-right:20px}
+.w.largo td:nth-child(6),.w.largo th:nth-child(6){border-left:1px solid var(--rule2)}
+.w.largo td:nth-child(10),.w.largo th:nth-child(10){border-left:1px solid var(--rule2)}
+/* Nome da pool a esquerda: rotulo alinhado a direita obriga o olho a procurar
+   onde a palavra comeca, linha a linha. */
+td.par,th.esq{text-align:left}
+tbody tr:hover td{background:var(--rule2)}
+
+.idade{color:var(--warn);cursor:help;font-size:11px}
+
+/* ------------------------------------------------- ranking no celular
+   Treze colunas nao cabem em 375px, e rolar de lado para ler UMA linha e o
+   pior dos dois mundos: perde-se o cabecalho ao rolar e o olho tem que voltar
+   toda vez. Abaixo de 760px cada linha vira um CARTAO, com o rotulo da coluna
+   a esquerda e o valor a direita — o `data-r` de cada celula carrega o rotulo.
+
+   Cabe aqui e nao no painel do painel principal porque la sao 3 tabelas de contexto
+   diferente; esta e uma so, densa, e e a que se le no celular. */
+@media (max-width: 760px) {
+  .w.largo .tw{width:auto;border:none;border-radius:0;overflow:visible;
+    background:none}
+  .w.largo table,.w.largo tbody,.w.largo tr,.w.largo td{
+    display:block;width:auto}
+  .w.largo thead{display:none}
+  .w.largo tr{background:var(--card);border:1px solid var(--rule);
+    border-radius:10px;padding:4px 0;margin-bottom:9px}
+  /* A melhor largura de cada pool ja vinha marcada com `.tot`; no cartao ela
+     vira uma borda de destaque em vez de um traco no topo, que sozinho nao
+     leria como "esta e a melhor". */
+  .w.largo tr.tot{border-color:var(--accent)}
+  .w.largo tr.tot td{border-top:none}
+  .w.largo td{display:flex;justify-content:space-between;align-items:baseline;
+    gap:14px;text-align:right;padding:5px 13px;border-bottom:none}
+  .w.largo td::before{content:attr(data-r);color:var(--ink3);
+    font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;
+    text-transform:uppercase;text-align:left;flex:0 0 auto}
+  /* Numero e pool formam o topo do cartao: sem isto o "#" e o nome ficariam
+     perdidos no meio da lista de rotulos. */
+  .w.largo td:nth-child(1),.w.largo td:nth-child(2){
+    display:inline-flex;width:auto;font-size:13px;padding-bottom:2px}
+  .w.largo td:nth-child(1)::before{display:none}
+  .w.largo td:nth-child(2)::before{display:none}
+  .w.largo td:nth-child(2){font-weight:600;padding-left:2px}
+  .w.largo td:nth-child(6),.w.largo td:nth-child(10){border-left:none}
+  .w.largo td:nth-child(6){border-top:1px solid var(--rule2);
+    padding-top:7px;margin-top:3px}
+}
+
+/* ------------------------------------------------------- abas do ranking
+   No desktop nao existem: a tabela inteira cabe e comparar linha a linha e o
+   ponto. No celular, dez cartoes empilhados obrigam a rolar para comparar
+   duas pools — a aba troca em um toque. */
+.abas{display:none}
+@media (max-width: 760px) {
+  .abas{display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .abas::-webkit-scrollbar{display:none}
+  .aba{flex:0 0 auto;display:flex;align-items:baseline;gap:6px;
+    background:var(--card);border:1px solid var(--rule);border-radius:8px;
+    padding:8px 11px;color:var(--ink2);font-family:"IBM Plex Mono",monospace;
+    font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap}
+  .aba .n{color:var(--ink3);font-size:10px}
+  .aba .lg{color:var(--ink3);font-size:10px}
+  /* A selecionada usa a cor de acento e nao um cinza mais claro: com dez abas
+     lado a lado, contraste de tom some na luz do sol. */
+  .aba.on{background:var(--accent-bg);border-color:var(--accent);
+    color:var(--accent)}
+  .aba.on .n,.aba.on .lg{color:var(--accent)}
+  /* So a linha escolhida aparece. `.sel` e posta pelo script; sem JS a
+     primeira ja vem com ela no HTML, entao a pagina nunca fica vazia. */
+  .w.largo tbody tr{display:none}
+  .w.largo tbody tr.sel{display:block}
+}
+
+/* ------------------------------------------------ analise (analise.html)
+   Mesma folha da home de proposito: as duas paginas sao o mesmo produto e
+   divergir de estilo faria a analise parecer de outro sistema. O que entra
+   aqui e so o que a home nao tem — veredito, graficos SVG e o bloco cru. */
+.veredito{border:1px solid var(--rule);border-left:4px solid var(--ink3);
+  background:var(--card);border-radius:10px;padding:16px 18px;margin:4px 0 16px}
+.veredito.pos{border-left-color:var(--pos)}
+.veredito.warn{border-left-color:var(--warn)}
+.veredito.neg{border-left-color:var(--neg)}
+.veredito .acao{font-size:30px;font-weight:700;letter-spacing:-.02em;
+  line-height:1.1}
+.veredito.pos .acao{color:var(--pos)}
+.veredito.warn .acao{color:var(--warn)}
+.veredito.neg .acao{color:var(--neg)}
+.veredito .pq{color:var(--ink2);margin-top:6px;max-width:80ch}
+.veredito .gat{color:var(--ink3);font-size:13px;margin-top:8px;
+  font-family:"IBM Plex Mono",monospace}
+
+/* Os graficos sao SVG inline: sem CDN, sem JavaScript de terceiro. A cor sai
+   das variaveis do tema, entao eles acompanham claro e escuro sem duplicata. */
+svg.g{width:100%;height:auto;display:block;margin:6px 0 2px;
+  border:1px solid var(--rule);border-radius:10px;background:var(--card);
+  padding:6px 4px;box-sizing:border-box}
+svg.g .bk{fill:var(--rule2)}
+svg.g .bk.dentro{fill:var(--accent);opacity:.85}
+svg.g .nossa-faixa{fill:var(--accent);opacity:.10}
+svg.g .preco{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:3 3}
+svg.g .caixa{fill:var(--accent);opacity:.45}
+svg.g .bigode{stroke:var(--ink3);stroke-width:1.5}
+svg.g .mediana{stroke:var(--ink);stroke-width:2}
+svg.g .zero{stroke:var(--ink3);stroke-width:1;stroke-dasharray:2 3}
+svg.g .alvo{stroke:var(--warn);stroke-width:1.5}
+svg.g .grade{stroke:var(--rule2);stroke-width:1}
+svg.g .pt{fill:var(--ink3);opacity:.7}
+svg.g .pt.nossa{fill:var(--accent);opacity:1;stroke:var(--ink);stroke-width:1.5}
+svg.g .ex{fill:var(--ink3);font-size:11px;
+  font-family:"IBM Plex Mono",monospace}
+
+.barra-larga{margin:12px 2px 0}
+.barra-larga .bar{min-width:100%}
+h3{font-size:15px;margin:22px 2px 8px;color:var(--ink)}
+.gt{font-size:15px}
+/* Motivo de gate e prosa, nao numero: alinhado a esquerda e com quebra. A
+   tabela inteira alinha a direita porque quase tudo nela e dinheiro. */
+td .txt{white-space:normal;display:inline-block;max-width:62ch;text-align:left}
+td:has(> .txt){text-align:left}
+.narra{background:var(--card);border:1px solid var(--rule);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:12.5px;line-height:1.55;
+  font-family:"IBM Plex Mono",monospace;color:var(--ink2);white-space:pre-wrap}
+details.cru{margin-top:14px}
+details.cru summary{cursor:pointer;color:var(--ink3);font-size:13px;
+  padding:6px 2px}
+details.cru .narra{max-height:60vh;overflow-y:auto;white-space:pre}
+
+/* Titulo de secao que leva a uma pagina. So sublinha no hover: um link
+   permanente no titulo compete com o proprio titulo pela atencao. */
+.sec h2 a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--ink3)}
+.sec h2 a:hover{border-bottom-color:var(--accent);color:var(--accent)}
+
+/* ------------------------------------------------ abas dos graficos da pool
+   As abas trocam o desenho sem tocar a rede: os dados vao inteiros no HTML.
+   Uma aba que precisasse buscar quebraria a pagina offline — e ela e servida
+   estatica pelo nginx. */
+.gabas{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 12px}
+.gaba{background:var(--card);border:1px solid var(--rule);color:var(--ink2);
+  border-radius:8px;padding:7px 13px;font-size:12.5px;cursor:pointer;
+  font-family:"IBM Plex Mono",monospace;transition:background .12s,color .12s}
+.gaba:hover{border-color:var(--accent);color:var(--ink)}
+.gaba.on{background:var(--accent-bg,var(--card));border-color:var(--accent);
+  color:var(--accent);font-weight:600}
+.gcx{background:var(--card);border:1px solid var(--rule);border-radius:12px;
+  padding:14px 16px 6px;box-shadow:var(--sh)}
+.gtit{font-size:12.5px;color:var(--ink3);margin-bottom:6px;
+  font-family:"IBM Plex Mono",monospace}
+.gcx svg.g{border:none;background:none;padding:0;margin:0}
+
+/* Pool medida mas nao ranqueavel: aparece, e nao compete. */
+tr.curta{opacity:.55}
+tr.curta b{font-weight:500}
+
+/* Bancada do Test Lab: nome grande, numeros resumidos, detalhe no clique.
+   `details` e nao JavaScript — a pagina e servida sem CDN. */
+.tst{background:var(--card);border:1px solid var(--rule);border-radius:12px;
+  box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.tst>summary{list-style:none;cursor:pointer;padding:16px 18px;
+  display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.tst>summary::-webkit-details-marker{display:none}
+.tst>summary::after{content:"ver detalhe ▾";grid-column:1/-1;
+  font-size:11.5px;color:var(--ink3);font-family:"IBM Plex Mono",monospace}
+.tst[open]>summary::after{content:"fechar ▴"}
+.tst>summary:hover{background:var(--hover,rgba(127,127,127,.05))}
+.tnome{font-size:24px;font-weight:650;letter-spacing:-.02em;line-height:1.1}
+.tsub{font-size:12px;color:var(--ink3);margin-top:4px;grid-column:1}
+.trk{grid-column:2;grid-row:1/3;display:flex;gap:22px;text-align:right}
+.rk .k{font-size:10.5px;color:var(--ink3);text-transform:uppercase;
+  letter-spacing:.06em;font-family:"IBM Plex Mono",monospace}
+.rk .v{font-size:18px;font-weight:600;margin-top:2px}
+.tdet{padding:0 18px 16px;border-top:1px solid var(--rule)}
+@media(max-width:720px){
+  .tst>summary{grid-template-columns:1fr}
+  .trk{grid-column:1;grid-row:auto;text-align:left;flex-wrap:wrap;gap:16px}
+  .tnome{font-size:20px}}
+
+/* Controle de paginacao — usado pela tabela de posicoes da pool e pela de
+   fechadas na home. Uma definicao so. */
+.tctl{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;
+      margin:.4rem 0 .7rem;font-size:.82rem;color:var(--ink3)}
+.tctl button{font:inherit;color:inherit;background:none;cursor:pointer;
+      border:1px solid currentColor;border-radius:4px;padding:.1rem .5rem;
+      opacity:.75}
+.tctl button:hover:not(:disabled){opacity:1}
+.tctl button:disabled{opacity:.28;cursor:default}
+#fnav{display:inline-flex;gap:.5rem;align-items:center}
+/* Endereco do dono na tabela de posicoes: branco (pedido do usuario, 19/09). */
+a.dono{color:#fff}
